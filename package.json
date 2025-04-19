@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "fastapi": "^0.0.8",
-    "firebase-admin": "^13.2.0",
-    "unicorn": "^0.0.1"
-  }
-}
