@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FastAPI Chat</title>
+    <style>
+        body { font-family: Arial; margin: 2em; }
+        #messages { border: 1px solid #ccc; height: 300px; overflow-y: scroll; padding: 1em; }
+        #input { margin-top: 1em; }
+    </style>
+</head>
+<body>
+    <h2>FastAPI WebSocket Chat</h2>
+
+    <div>
+        <label>User ID:</label>
+        <input id="userId" value="user1">
+        <input id="chatId" value="chat1">
+        <button onclick="connect()">Connect</button>
+    </div>
+
+    <div id="chat" style="display: none;">
+        <div id="messages"></div>
+
+        <div id="input">
+            <input id="messageText" placeholder="Type a message..." oninput="sendTyping()">
+            <input id="receiverId" placeholder="Send to (chat id)" value="chat1">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        let socket = null;
+        let userId = "";
+
+        function connect() {
+            userId = document.getElementById("userId").value;
+            chatId = document.getElementById("chatId").value;
+            socket = new WebSocket(`ws://localhost:8000/ws/${chatId}?user_id=${userId}`);
+        
+            socket.onopen = () => {
+                document.getElementById("chat").style.display = "block";
+                appendMessage("🔌 Connected");
+            };
+
+            socket.onmessage = (event) => {
+                appendMessage(event.data);
+                event.preventDefault();
+            };
+
+            socket.onclose = () => {
+                appendMessage("❌ Disconnected");
+            };
+        }
+
+        function sendMessage() {
+            var message = document.getElementById("messageText");
+
+            if (socket && message.value) {
+                socket.send(message.value);
+                message.value = '';
+            }
+        }
+
+        function appendMessage(text) {
+            const div = document.createElement("div");
+            div.textContent = text;
+            document.getElementById("messages").appendChild(div);
+        }
+    </script>
+</body>
+</html>
