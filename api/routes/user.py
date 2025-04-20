@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, Request
-from api.controllers.user_controller import get_user_profile, get_online_users, update_user_profile
+from api.controllers.user_controller import get_user_profile, get_online_users, update_user_profile, get_offline_users
 
 router = APIRouter(prefix="/users", tags=["User"])
 
@@ -10,6 +10,10 @@ def getMe(user=Depends(get_user_profile)):
 @router.get("/active")
 def active_users():
     return get_online_users()
+
+@router.get("/inactive")
+def inactive_users():
+    return get_offline_users()
 
 @router.patch("")
 async def update_user(request: Request):

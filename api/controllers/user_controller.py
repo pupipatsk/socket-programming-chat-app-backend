@@ -17,6 +17,9 @@ def get_user_profile(request: Request):
 def get_online_users():
     return get_users_by_status("Online")
 
+def get_offline_users():
+    return get_users_by_status("Offline")
+
 async def update_user_profile(request: Request):
     auth_header = request.headers.get("Authorization")
     if not auth_header or not auth_header.startswith("Bearer "):
