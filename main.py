@@ -10,7 +10,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
-        "https://socket-programming-chat-app-frontend.onrender.com/"
+        "https://socket-programming-chat-app-frontend.onrender.com"
     ],  # Frontend URL
     allow_credentials=True,
     allow_methods=["*"],
