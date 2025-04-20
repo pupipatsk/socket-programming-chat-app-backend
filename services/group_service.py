@@ -35,7 +35,8 @@ def get_all_groups_basic():
 def get_group_if_member(group_id, uid):
     group = groups_collection.find_one({"_id": ObjectId(group_id)})
     if not group or uid not in group["members"]:
-        return None
+        group.pop("messages", None)
+        return group
     return group
 
 def join_group(group_id, uid):
